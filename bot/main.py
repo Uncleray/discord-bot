@@ -1,4 +1,5 @@
 # imports
+import sys
 import discord
 from discord.ext import commands
 import settings
@@ -6,7 +7,15 @@ import responses
 
 intents = discord.Intents.default()
 intents.message_content = True
-bot = commands.Bot(command_prefix='!', intents=intents)
+bot = commands.Bot(command_prefix=settings.PREFIX, intents=intents)
+
+# main function of bot with token check
+def main():
+    if settings.TOKEN is None:
+        return ('no token was provided. Please provide token in .env file')
+    try: bot.run(settings.TOKEN)
+    except discord.PrivilegedIntentsRequired as error:
+        return error
 
 # custom help menu from chatgpt -> I need to check this code and understand what it does and why its written as it is. Aim: be able to write this myself.
 class CustomHelpCommand(commands.DefaultHelpCommand):
@@ -36,7 +45,7 @@ class CustomHelpCommand(commands.DefaultHelpCommand):
 
 bot.help_command = CustomHelpCommand()
 
-# event that Bot is ready
+# event that bot is ready
 @bot.event
 async def on_ready():
     print(f'Logged in as: {bot.user.name} with ID: {bot.user.id}')
@@ -46,7 +55,7 @@ async def on_ready():
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandNotFound):
         user_sent_command = ctx.message.content
-        await ctx.send(f'Command `{user_sent_command}` is not known. Please use `!help` for a list of commands.')
+        await ctx.send(f'Command `{user_sent_command}` is not known. Please use `{settings.PREFIX}help` for a list of commands.')
     else:
         print(f'Error: {error}')
 
@@ -77,5 +86,9 @@ async def clear(ctx, amount):
         await ctx.send(f'{amount} messages have been cleared')
 
 
-# run bot
-bot.run(settings.discord_api_secret)
+# calling main function and printing out the errors from it.
+if __name__ == '__main__':
+    try:
+        sys.exit(main())
+    except SystemError as error:
+        print(error)
