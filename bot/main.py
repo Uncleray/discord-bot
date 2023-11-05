@@ -1,5 +1,6 @@
 # imports
 import sys
+import random
 import discord
 from discord.ext import commands
 import settings
@@ -89,6 +90,16 @@ async def ping(ctx):
 @bot.command(help='sends a greeting message back.',brief='sends a greeting message back.')
 async def hello(ctx):
     await ctx.reply(responses.hello_response)
+
+# command to receive random answers (magic 8ball)
+@bot.command(aliases=['8ball'])
+async def eightbal(ctx, *, question):
+    responses = [
+        'not so sure about that',
+        'yes, clearly.',
+        'very doubtful about that'
+    ]
+    await ctx.reply(random.choice(responses))
 
 # command to clear channel for user provides {amount} of messages
 @bot.command(help='clears messages in the channel.',brief='clears messages in the channel.')
