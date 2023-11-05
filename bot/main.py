@@ -95,9 +95,9 @@ async def hello(ctx):
 @bot.command(aliases=['8ball'])
 async def eightbal(ctx, *, question):
     responses = [
-        'not so sure about that',
+        'not so sure about that.',
         'yes, clearly.',
-        'very doubtful about that'
+        'very doubtful.'
     ]
     await ctx.reply(random.choice(responses))
 
