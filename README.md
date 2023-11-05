@@ -12,4 +12,4 @@ Fascinating new world for me coming from Sys Admin Field and I honestly feel too
 Alright, I believe that should be enough for a little readme about this.  
 Thanks for reading and have a great day!
 
-Ps. What i forgot: Not only programming is new for me but also everything that has to do with it. So best not look at my commits as git is as new for me as programming and I have absolutely no idea what I'm, doing.
+Ps. What i forgot: Not only programming is new for me but also everything that has to do with it. So best not look at my commits as git is as new for me as programming and I have absolutely no idea what I'm doing.
