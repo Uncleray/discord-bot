@@ -63,22 +63,22 @@ async def on_command_error(ctx, error):
 # event to to send message to a channel when member joins the discord server
 @bot.event
 async def on_member_join(member):
-    channel = bot.get_channel(int(settings.WELCOME_CHANNEL))
+    channel = member.guild.system_channel
     if channel:
-        welcome_message = f'{member.name} just joined the Server!'
+        welcome_message = f'{member.mention} just joined the Server!'
         await channel.send(welcome_message)
     else:
-        print(f'Channel with ID {settings.WELCOME_CHANNEL} not found.')
+        print(f'No System Messages Channel was found.')
 
 # event to to send message to a channel when member leaves the discord server
 @bot.event
 async def on_member_remove(member):
-    channel = bot.get_channel(int(settings.GOODBYE_CHANNEL))
+    channel = member.guild.system_channel
     if channel:
-        goodbye_message = f'{member.name} just left the server!'
+        goodbye_message = f'{member.mention} just left the server!'
         await channel.send(goodbye_message)
     else:
-        print(f'Channel with ID {settings.GOODBYE_CHANNEL} not found.')
+        print(f'No System Messages Channel was found.')
 
 # example Command for Ping -> Pong
 @bot.command(help='sends a pong as answer.',brief='sends a pong as answer.')
