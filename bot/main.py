@@ -28,7 +28,7 @@ class CustomHelpCommand(commands.DefaultHelpCommand):
 
     async def send_bot_help(self, mapping):
         # Customize how bot-level help is displayed
-        embed = discord.Embed(title='Y\'shtola Bot Help', description='Customized help for this bot.', color=discord.Color.blue())
+        embed = discord.Embed(title=settings.BOT_NAME, description='Customized help for this bot.', color=discord.Color.blue())
         for cog, commands in mapping.items():
             command_list = []
             for command in commands:
