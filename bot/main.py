@@ -83,12 +83,12 @@ async def on_member_remove(member):
 # example Command for Ping -> Pong
 @bot.command(help='sends a pong as answer.',brief='sends a pong as answer.')
 async def ping(ctx):
-    await ctx.send('pong')
+    await ctx.reply('Pong!')
 
 # command with fixed response from response.py file
 @bot.command(help='sends a greeting message back.',brief='sends a greeting message back.')
 async def hello(ctx):
-    await ctx.send(responses.hello_response)
+    await ctx.reply(responses.hello_response)
 
 # command to clear channel for user provides {amount} of messages
 @bot.command(help='clears messages in the channel.',brief='clears messages in the channel.')
