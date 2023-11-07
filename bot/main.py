@@ -1,4 +1,7 @@
 import sys
+from colorama import Back, Fore, Style
+import platform
+import time
 import discord
 from discord.ext import commands
 import settings
@@ -6,15 +9,28 @@ import settings
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
-bot = commands.Bot(command_prefix=settings.PREFIX, intents=intents)
 
 # main function of bot with token check
 def main():
     if settings.TOKEN is None:
         return ('no token was provided. Please provide token in .env file')
-    try: bot.run(settings.TOKEN)
+    try: discord_bot.run(settings.TOKEN)
     except discord.PrivilegedIntentsRequired as error:
         return error
+
+# defining Class of Bot
+class CherryBot(commands.Bot):
+    def __init__(self):
+        super().__init__(command_prefix=settings.PREFIX, intents=intents)
+
+    async def on_ready(self):
+        prfx = (Back.BLACK + Fore.GREEN + time.strftime('%H:%M:%S UTC', time.gmtime()) + Back.RESET + Fore.WHITE + Style.BRIGHT)
+        print(f'{prfx} Logged in as: {Fore.BLUE}{self.user.name}')
+        print(f'{prfx} Bot ID: {Fore.YELLOW}{self.user.id}')
+        print(f'{prfx} Discord Version: {Fore.YELLOW}{discord.__version__}')
+        print(f'{prfx} Python Version: {Fore.YELLOW}{platform.python_version()}')
+
+discord_bot = CherryBot()
 
 # calling main function and printing out the errors from it.
 if __name__ == '__main__':
