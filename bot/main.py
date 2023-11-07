@@ -29,8 +29,17 @@ class CherryBot(commands.Bot):
         print(f'{prfx} Bot ID: {Fore.YELLOW}{self.user.id}')
         print(f'{prfx} Discord Version: {Fore.YELLOW}{discord.__version__}')
         print(f'{prfx} Python Version: {Fore.YELLOW}{platform.python_version()}')
+        synced_commands = await self.tree.sync()
+        print(f'{prfx} Slash Commands Synced: {Fore.YELLOW}{len(synced_commands)}')
 
 discord_bot = CherryBot()
+
+"""
+Trying to get Slash Commands working.
+"""
+@discord_bot.tree.command(name='ping', description='Will send a Pong back!')
+async def ping(interaction: discord.Interaction):
+    await interaction.response.send_message(content='Pong!')
 
 # calling main function and printing out the errors from it.
 if __name__ == '__main__':
