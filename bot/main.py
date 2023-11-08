@@ -65,7 +65,7 @@ async def userinfo(interaction: discord.Interaction, member:discord.Member=None)
 
 # Command that will show Information about the Server
 @discord_bot.tree.command(name='serverinfo',description='Display information on the Server')
-@app_commands.checks.has_any_role('Moderator','SuperUser','ServerOWner')
+@app_commands.checks.has_any_role('Moderator','SuperUser','Server Owner')
 async def serverinfo(interaction: discord.Interaction):
     embed = discord.Embed(title='Server Info',description='Here is the information you requested about the server.',color=discord.Color.green(),timestamp=datetime.datetime.utcnow())
     embed.set_thumbnail(url=interaction.guild.icon)
@@ -84,6 +84,27 @@ async def purge(interaction: discord.Interaction, amount: int):
     embed = discord.Embed(description=f"Purged {amount} message(s)",color=discord.Color.green())
     await interaction.channel.send(embed=embed)
 
+# command to set activity status of bot
+@discord_bot.tree.command(name='botstatus',description='Sets Presence of Bot')
+@app_commands.checks.has_any_role('Server Owner')
+async def botstatus(interaction: discord.Interaction, status:str):
+    await interaction.response.defer(ephemeral=True,thinking=True)
+    statuslist = ['online','dnd','idle','offline','invisible']
+    if status not in statuslist:
+        await interaction.followup.send(f'Status **{status}** does not exist.')
+    else:
+        if status == 'online':
+            await discord_bot.change_presence(status=discord.Status.online)
+        if status == 'dnd':
+            await discord_bot.change_presence(status=discord.Status.dnd)
+        if status == 'offline':
+            await discord_bot.change_presence(status=discord.Status.offline)
+        if status == 'idle':
+            await discord_bot.change_presence(status=discord.Status.idle)
+        if status == 'invisible':
+            await discord_bot.change_presence(status=discord.Status.invisible)
+        await interaction.followup.send(f'Status was changed to **{status}**.')
+        
 """
 Trying to create a permission-issue command to let the user know he does not have enough permission to run the command he wanted to.
 """
