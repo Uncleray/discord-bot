@@ -74,15 +74,15 @@ async def serverinfo(interaction: discord.Interaction):
     embed.add_field(name='Channels',value=f'Text {len(interaction.guild.text_channels)} | Voice {len(interaction.guild.voice_channels)}')
     await interaction.response.send_message(embed=embed,ephemeral=False)
 
-# command to clear channel for user provides {amount} of messages
-"""
-Needs to be fixed. Throws Error 404 - Unknown Interaction
-"""
-@discord_bot.tree.command(name='clear',description='clears amount of messages in channel')
-async def clear(interaction: discord.Interaction, amount:int):
-        amount = min(amount, 100) # limit the number of messages that can be cleared at once.
-        await interaction.channel.purge(limit=amount)
-        await interaction.response.send_message(f'{amount} messages have been cleared')
+# command to purge messages in channel. Limited to 100 messages each purge.
+@discord_bot.tree.command(name= "purge", description="Purge messages in a channel")
+@app_commands.checks.has_permissions(manage_messages=True)
+async def purge(interaction: discord.Interaction, amount: int):
+    await interaction.response.defer()
+    amount = min(amount, 100) # limit the number of messages that can be cleared at once.
+    await interaction.channel.purge(limit=amount)
+    embed = discord.Embed(description=f"Purged {amount} message(s)",color=discord.Color.green())
+    await interaction.channel.send(embed=embed)
 
 """
 Trying to create a permission-issue command to let the user know he does not have enough permission to run the command he wanted to.
